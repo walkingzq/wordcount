@@ -8,11 +8,20 @@ import java.util.StringTokenizer;
 public class CommonTest {
     @Test
     public void stringTokenizerTest(){
+        StringBuilder sb = new StringBuilder();
         String str = "hello world   hello" +
                 " hadoop!";
         StringTokenizer st = new StringTokenizer(str);
         while (st.hasMoreTokens()){
             System.out.println(st.nextToken());
         }
+    }
+
+    @Test
+    public void cmdArgsTest(String[] args){
+        for (String s : args){
+            System.out.println(s);
+        }
+        System.out.println(args.length);
     }
 }
