@@ -17,11 +17,4 @@ public class CommonTest {
         }
     }
 
-    @Test
-    public void cmdArgsTest(String[] args){
-        for (String s : args){
-            System.out.println(s);
-        }
-        System.out.println(args.length);
-    }
 }

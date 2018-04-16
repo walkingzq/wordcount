@@ -6,6 +6,7 @@ import org.apache.flink.api.java.utils.ParameterTool;
 import org.apache.flink.streaming.api.datastream.DataStream;
 import org.apache.flink.streaming.api.environment.StreamExecutionEnvironment;
 import org.apache.flink.streaming.api.windowing.time.Time;
+import org.apache.flink.streaming.connectors.fs.bucketing.BucketingSink;
 import org.apache.flink.util.Collector;
 
 /**
@@ -35,7 +36,7 @@ public class FlinkWordCount {
                 .flatMap(new FlatMapFunction<String, WordWithCount>() {
 //                    @Override
                     public void flatMap(String value, Collector<WordWithCount> out) {
-                        for (String word : value.split("\\s")) {
+                        for (String word : value.split("\\s")) {//以空白字符分词
                             out.collect(new WordWithCount(word, 1L));
                         }
                     }
@@ -50,7 +51,8 @@ public class FlinkWordCount {
                 });
 
         // print the results with a single thread, rather than in parallel
-        windowCounts.print().setParallelism(1);
+//        windowCounts.print().setParallelism(1);
+          windowCounts.addSink(new BucketingSink<WordWithCount>("hdfs://10.87.52.187:8020/home/flink/flink_test_zq"));
 
         env.execute("Socket Window WordCount");
     }
