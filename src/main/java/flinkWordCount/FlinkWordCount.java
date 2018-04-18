@@ -6,7 +6,10 @@ import org.apache.flink.api.java.utils.ParameterTool;
 import org.apache.flink.streaming.api.datastream.DataStream;
 import org.apache.flink.streaming.api.environment.StreamExecutionEnvironment;
 import org.apache.flink.streaming.api.windowing.time.Time;
+import org.apache.flink.streaming.connectors.fs.bucketing.BucketingSink;
 import org.apache.flink.util.Collector;
+
+import java.util.Arrays;
 
 /**
  * Create by Zhao Qing on 2018/4/11
@@ -28,7 +31,8 @@ public class FlinkWordCount {
         final StreamExecutionEnvironment env = StreamExecutionEnvironment.getExecutionEnvironment();
 
         // get input data by connecting to the socket
-        DataStream<String> text = env.socketTextStream("localhost", port, "\n");
+        DataStream<String> text = env.socketTextStream("emr-header-1.cluster-41145", port, "\n");
+
 
         // parse the data, group it, window it, and aggregate the counts
         DataStream<WordWithCount> windowCounts = text
@@ -50,8 +54,8 @@ public class FlinkWordCount {
                 });
 
         // print the results with a single thread, rather than in parallel
-        windowCounts.print().setParallelism(1);
-
+//        windowCounts.print().setParallelism(1);
+        windowCounts.addSink(new BucketingSink<WordWithCount>("hdfs://emr-header-1/home/flink/flink_test_zq"));
         env.execute("Socket Window WordCount");
     }
 
