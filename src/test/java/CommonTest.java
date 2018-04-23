@@ -1,5 +1,7 @@
 import org.junit.Test;
 
+import java.util.Calendar;
+import java.util.Date;
 import java.util.StringTokenizer;
 
 /**
@@ -15,6 +17,19 @@ public class CommonTest {
         while (st.hasMoreTokens()){
             System.out.println(st.nextToken());
         }
+    }
+
+    @Test
+    public void comm(){
+        String timestamp = "CreateTime:1524449914670";
+        System.out.println(timestamp.split(":")[1]);
+    }
+
+    @Test
+    public void time(){
+        System.out.println(new Date().getTime());
+        System.out.println(System.currentTimeMillis() / 100L);
+        System.out.println(Calendar.getInstance().getTimeInMillis());
     }
 
 }

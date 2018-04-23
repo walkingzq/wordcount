@@ -1,4 +1,4 @@
-/**
+package hadoop; /**
  * Create by Zhao Qing on 2018/4/8
  * hadoop官方文档示例
  */
