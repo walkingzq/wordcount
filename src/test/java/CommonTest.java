@@ -28,7 +28,7 @@ public class CommonTest {
     @Test
     public void time(){
         System.out.println(new Date().getTime());
-        System.out.println(System.currentTimeMillis() / 100L);
+        System.out.println(System.currentTimeMillis());
         System.out.println(Calendar.getInstance().getTimeInMillis());
     }
 

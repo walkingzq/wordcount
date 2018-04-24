@@ -28,7 +28,7 @@ public class FlinkDemoWithKafka {
         properties.setProperty("group.id", groupId);
         properties.setProperty("print.timestamp", "true");//显示时间戳
         final StreamExecutionEnvironment env = StreamExecutionEnvironment.getExecutionEnvironment();//获取flink运行环境
-        env.setStreamTimeCharacteristic(TimeCharacteristic.EventTime);//设置时间格式为eventtime
+        env.setStreamTimeCharacteristic(TimeCharacteristic.IngestionTime);//设置时间格式为IngestionTime
         env.enableCheckpointing(5000);//flink checkpoint 间隔，5000ms
         //创建一个kafka消费者，注意flink支持topic的正则表达式（即可以根据指定规则自动发现kafka topic并进行消费，默认offset为最早）
         FlinkKafkaConsumer010<String> kafkaConsumer010 = new FlinkKafkaConsumer010<String>(topic, new SimpleStringSchema(), properties);
@@ -38,6 +38,10 @@ public class FlinkDemoWithKafka {
 //        kafkaConsumer010.assignTimestampsAndWatermarks(new  );//TODO:eventtime 待测验
         //创建一个flink DataStream
         DataStream<String> stream = env.addSource(kafkaConsumer010);
+
+        DataStream<MyEvent> stream1 = stream.flatMap((str, out) -> {
+            out.collect(new MyEvent());
+        });
 
 
         //创建一个kafka producer
