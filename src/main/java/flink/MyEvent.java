@@ -1,4 +1,4 @@
-package flinkWordCount;
+package flink;
 
 /**
  * Create by Zhao Qing on 2018/4/24
