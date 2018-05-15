@@ -52,8 +52,8 @@ public class FlinkWordCount {
                 });
 
         // print the results with a single thread, rather than in parallel
-//        windowCounts.print().setParallelism(1);
-        windowCounts.addSink(new BucketingSink<WordWithCount>("hdfs://emr-header-1/home/flink/flink_test_zq"));
+        windowCounts.print().setParallelism(1);
+//        windowCounts.addSink(new BucketingSink<WordWithCount>("hdfs://emr-header-1/home/flink/flink_test_zq"));
         env.execute("Socket Window WordCount");
     }
 
